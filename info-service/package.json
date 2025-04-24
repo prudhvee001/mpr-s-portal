@@ -1,0 +1,13 @@
+{
+    "name": "info-service",
+    "version": "1.0.0",
+    "description": "Info microservice for student portal",
+    "main": "app.js",
+    "scripts": {
+      "start": "node app.js"
+    },
+    "dependencies": {
+      "express": "^4.18.2"
+    }
+  }
+  
