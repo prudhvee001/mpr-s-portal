@@ -2,38 +2,62 @@ version: '3.8'
 
 services:
   user-service:
-    build: ./user-service
+    build:
+      context: ./user-service
     ports:
       - "3001:3001"
-    container_name: user-service
+    networks:
+      - mpr-network
 
   results-service:
-    build: ./results-service
+    build:
+      context: ./results-service
     ports:
       - "3002:3002"
-    container_name: results-service
+    networks:
+      - mpr-network
 
   notifications-service:
-    build: ./notifications-service
+    build:
+      context: ./notifications-service
     ports:
       - "3003:3003"
-    container_name: notifications-service
+    networks:
+      - mpr-network
 
   info-service:
-    build: ./info-service
+    build:
+      context: ./info-service
     ports:
       - "3004:3004"
-    container_name: info-service
+    networks:
+      - mpr-network
 
   gateway:
-    image: nginx
-    container_name: gateway
+    image: nginx:latest
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - user-service
       - results-service
       - notifications-service
       - info-service
+    networks:
+      - mpr-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - gateway
+    networks:
+      - mpr-network
+
+networks:
+  mpr-network:
+    driver: bridge
