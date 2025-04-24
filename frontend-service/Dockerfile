@@ -1,23 +1,23 @@
-# Use a Node.js image as the base
-FROM node:18
+# Step 1: Use an official Node.js image as the base
+FROM node:16 AS frontend-service
 
-# Set the working directory inside the container
+# Step 2: Set the working directory in the container
 WORKDIR /app
 
-# Copy the package.json and package-lock.json to the working directory
-COPY package.json package-lock.json ./
+# Step 3: Copy the package.json and package-lock.json into the container
+COPY ./frontend-service/package.json ./frontend-service/package-lock.json ./
 
-# Install the dependencies
+# Step 4: Install the app dependencies
 RUN npm install
 
-# Copy the rest of the application files to the container
-COPY . .
+# Step 5: Copy the entire frontend-service project into the container
+COPY ./frontend-service ./
 
-# Build the React application
+# Step 6: Build the React app
 RUN npm run build
 
-# Expose the port the app will run on
+# Step 7: Expose the port for the frontend
 EXPOSE 80
 
-# Run the application
+# Step 8: Start the React app
 CMD ["npm", "start"]
