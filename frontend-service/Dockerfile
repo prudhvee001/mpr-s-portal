@@ -1,24 +1,23 @@
-# Stage 1: Build the frontend (if it's a React/Vue/Angular app)
-FROM node:18-alpine AS build
+# Use a Node.js image as the base
+FROM node:18
 
-# Set working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy source files
+# Copy the package.json and package-lock.json to the working directory
+COPY package.json package-lock.json ./
+
+# Install the dependencies
+RUN npm install
+
+# Copy the rest of the application files to the container
 COPY . .
 
-# Install dependencies and build the project
-RUN npm install && npm run build
+# Build the React application
+RUN npm run build
 
-# Stage 2: Serve the build using nginx
-FROM nginx:alpine
-
-# Copy built frontend from stage 1
-COPY --from=build /app/dist /usr/share/nginx/html  # For Angular
-# COPY --from=build /app/build /usr/share/nginx/html  # For React
-
-# Expose port
+# Expose the port the app will run on
 EXPOSE 80
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Run the application
+CMD ["npm", "start"]

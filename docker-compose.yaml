@@ -47,9 +47,9 @@ services:
     networks:
       - mpr-network
 
-  frontend:
+  frontend-service:
     build:
-      context: ./frontend
+      context: ./frontend-service
       dockerfile: Dockerfile
     ports:
       - "80:80"
