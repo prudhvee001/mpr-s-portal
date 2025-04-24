@@ -1,23 +1,24 @@
-# Step 1: Base image
-FROM node:16 AS frontend-service
+# frontend-service/Dockerfile
 
-# Step 2: Set working directory
+# Step 1: Build the React app
+FROM node:18-alpine as build
+
 WORKDIR /app
 
-# Step 3: Copy package files
-COPY package.json package-lock.json ./
-
-# Step 4: Install dependencies
+COPY package.json ./
 RUN npm install
 
-# Step 5: Copy the rest of the code
-COPY . .
-
-# Step 6: Build
+COPY . ./
 RUN npm run build
 
-# Step 7: Expose port
+# Step 2: Serve with Nginx
+FROM nginx:alpine
+
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Optional: Add custom nginx config
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
 
-# Step 8: Start
-CMD ["npm", "start"]
+CMD ["nginx", "-g", "daemon off;"]
