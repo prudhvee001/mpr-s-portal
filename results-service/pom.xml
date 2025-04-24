@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>results-service</name>
-    <description>Results microservice for student portal</description>
+    <description>Spring Boot Results Microservice</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -24,19 +24,16 @@
     </properties>
 
     <dependencies>
-        <!-- Spring Boot Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Actuator for monitoring (we'll use this later) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- DevTools for local development -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -44,7 +41,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Testing (optional for now) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -54,12 +50,15 @@
 
     <build>
         <plugins>
-            <!-- Package into executable JAR -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>3.2.2</version>
+                <configuration>
+                    <mainClass>com.student.portal.results.ResultsServiceApplication</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
+
 </project>
