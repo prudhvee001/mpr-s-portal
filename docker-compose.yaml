@@ -27,8 +27,13 @@ services:
 
   gateway:
     image: nginx
+    container_name: gateway
     ports:
       - "80:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    container_name: gateway
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - user-service
+      - results-service
+      - notifications-service
+      - info-service
