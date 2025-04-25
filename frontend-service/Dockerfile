@@ -1,6 +1,4 @@
-# frontend-service/Dockerfile
-
-# Step 1: Build the React app
+# Build stage (lighter base image)
 FROM node:18-alpine as build
 
 WORKDIR /app
@@ -8,16 +6,16 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install
 
-COPY . ./
+COPY . .
+
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
 RUN npm run build
 
-# Step 2: Serve with Nginx
+# Production stage (serving via nginx)
 FROM nginx:alpine
 
 COPY --from=build /app/build /usr/share/nginx/html
-
-# Optional: Add custom nginx config
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
