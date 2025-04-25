@@ -33,12 +33,12 @@ services:
     networks:
       - mpr-network
 
-    gateway:
+  gateway:
     image: nginx:latest
-    ports:
-      - "8080:80"
     volumes:
       - ./gateway/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "8080:80"
     depends_on:
       - user-service
       - results-service
@@ -46,7 +46,6 @@ services:
       - info-service
     networks:
       - mpr-network
-
 
   frontend-service:
     build:
